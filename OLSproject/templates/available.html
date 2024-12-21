@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course List</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: rgb(38, 109, 125);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        header .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            display: flex;
+        }
+
+        header .search-bar input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        header .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        header .nav-buttons a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header .nav-buttons a:hover {
+            background-color: #555;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 80px auto 0;
+        }
+
+        .left-panel {
+            width: 100%;
+        }
+
+        .greeting {
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+            color:#ffffff
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        li {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        li:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        li .course-image {
+            width: 300px;
+            height: 168px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        li .course-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
+        }
+
+        li .toggle-description {
+            color: #007bff;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+
+        li .course-description {
+            font-size: 14px;
+            color: #555;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        li .enroll-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        li .enroll-button:hover {
+            background-color: #218838;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px 20px;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            font-size: 16px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 20px;
+            }
+
+            header .nav-buttons a {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script>
+        function toggleDescription(event) {
+            const description = event.currentTarget.nextElementSibling;
+            if (description) {
+                description.classList.toggle('hidden');
+                event.currentTarget.textContent = description.classList.contains('hidden') ? 'Show Details' : 'Hide Details';
+            }
+        }
+
+        function enrollCourse(courseTitle) {
+            const message = document.querySelector('.success-message');
+            message.textContent = `Congratulations! You have successfully enrolled in "${courseTitle}"`;
+            message.style.display = 'block';
+
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">LearnForge</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for courses...">
+            <script>
+                // Function to filter courses based on search
+                function filterCourses() {
+                    const searchInput = document.querySelector('.search-bar input').value.toLowerCase();
+                    const courses = document.querySelectorAll('ul li');    
+                    courses.forEach(course => {
+                        const title = course.querySelector('.course-title').textContent.toLowerCase();
+                        if (title.includes(searchInput)) {
+                            course.style.display = "flex"; // Show matching courses
+                        } else {
+                            course.style.display = "none"; // Hide non-matching courses
+                        }
+                    });
+                }
+            
+                // Attach the filter function to the search bar input
+                document.querySelector('.search-bar input').addEventListener('input', filterCourses);
+            </script>
+            
+        </div>
+        <div class="nav-buttons">
+            <a href="{{ url_for('student_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('browse')}}">Browse Courses</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('certificates_badges') }}">Certifications</a>
+            <a href="{{ url_for('logout') }}">Log Out</a>
+        </div>
+    </header>
+    <main>
+        <div class="left-panel">
+            <div class="greeting">
+                <h1>Hey, Student!</h1>
+                <h2>Welcome to Available Course Section</h2>
+            </div>
+            <ul>
+                <li>
+                    <img src="/static/uploads/introtoprogramming.jpg" alt="Introduction to Programming" class="course-image">
+                    <div class="course-title">Introduction to Programming</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Learn the basics of programming using Python.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Introduction to Programming')">Enroll</button>
+                </li>
+                <li>
+                    <img src="/static/uploads/Data-Structure-Algorithms.png" alt="Data Structures and Algorithms" class="course-image">
+                    <div class="course-title">Data Structures and Algorithms</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Understand and implement core data structures and algorithms.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Data Structures and Algorithms')">Enroll</button>
+                </li>
+                <li>
+                    <img src="/static/uploads/Web Development Basics.png" alt="Web Development Basics" class="course-image">
+                    <div class="course-title">Web Development Basics</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Build modern websites with HTML, CSS, and JavaScript.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Web Development Basics')">Enroll</button>
+                </li>
+                <li>
+                    <img src="/static/uploads/oop.png" alt="Object-Oriented Programming" class="course-image">
+                    <div class="course-title">Object-Oriented Programming</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Master the principles of object-oriented design.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Object-Oriented Programming')">Enroll</button>
+                </li>
+                <li>
+                    <img src="/static/uploads/jvs.jpg" alt="Advanced JavaScript" class="course-image">
+                    <div class="course-title">Advanced JavaScript</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Explore advanced topics in JavaScript programming.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Advanced JavaScript')">Enroll</button>
+                </li>
+                <li>
+                    <img src="/static/uploads/mobileapp.jpg" alt="Mobile App Development" class="course-image">
+                    <div class="course-title">Mobile App Development</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Learn to build apps for Android and iOS.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Mobile App Development')">Enroll</button>
+                </li>
+                <li>
+                    <img src="ai-basics.jpg" alt="AI Basics" class="course-image">
+                    <div class="course-title">AI Basics</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Understand the fundamentals of Artificial Intelligence.</div>
+                    <button class="enroll-button" onclick="enrollCourse('AI Basics')">Enroll</button>
+                </li>
+                <li>
+                    <img src="cybersecurity.jpg" alt="Cybersecurity Essentials" class="course-image">
+                    <div class="course-title">Cybersecurity Essentials</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Learn how to protect systems and networks.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Cybersecurity Essentials')">Enroll</button>
+                </li>
+                <li>
+                    <img src="cloud-computing.jpg" alt="Cloud Computing" class="course-image">
+                    <div class="course-title">Cloud Computing</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Explore cloud services and architecture.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Cloud Computing')">Enroll</button>
+                </li>
+                <li>
+                    <img src="blockchain.jpg" alt="Blockchain Basics" class="course-image">
+                    <div class="course-title">Blockchain Basics</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Discover blockchain technology and its applications.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Blockchain Basics')">Enroll</button>
+                </li>
+                <li>
+                    <img src="graphic-design.jpg" alt="Graphic Design" class="course-image">
+                    <div class="course-title">Graphic Design</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Learn the art of creating stunning visuals.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Graphic Design')">Enroll</button>
+                </li>
+                <li>
+                    <img src="sql-database.jpg" alt="SQL and Databases" class="course-image">
+                    <div class="course-title">SQL and Databases</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Master database management and SQL queries.</div>
+                    <button class="enroll-button" onclick="enrollCourse('SQL and Databases')">Enroll</button>
+                </li>
+                <li>
+                    <img src="data-analysis.jpg" alt="Data Analysis" class="course-image">
+                    <div class="course-title">Data Analysis</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Gain insights from data using analytical tools.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Data Analysis')">Enroll</button>
+                </li>
+                <li>
+                    <img src="game-dev.jpg" alt="Game Development" class="course-image">
+                    <div class="course-title">Game Development</div>
+                    <div class="toggle-description" onclick="toggleDescription(event)">Show Details</div>
+                    <div class="course-description hidden">Create engaging games using Unity or Unreal Engine.</div>
+                    <button class="enroll-button" onclick="enrollCourse('Game Development')">Enroll</button>
+                </li>
+            </ul>
+        </div>
+    </main>
+    <div class="success-message"></div>
+</body>
+</html>

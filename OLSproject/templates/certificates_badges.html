@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificates and Badges</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #e45050;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        header .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        header .nav-buttons a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header .nav-buttons a:hover {
+            background-color: #555;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 80px auto 0;
+        }
+
+        .certificates-section, .badges-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 20px;
+            }
+
+            header .nav-buttons a {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">LearnForge</div>
+        <div class="nav-buttons">
+            <a href="{{ url_for('student_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('browse')}}">Browse Courses</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('certificates_badges') }}">Certifications</a>
+            <a href="{{ url_for('logout') }}">Log Out</a>
+        </div>
+    </header>
+    <main>
+        <div class="certificates-section">
+            <h1 class="section-title">Certificates</h1>
+            <div class="cards">
+                <div class="card">
+                    <img src="/static/uploads/certificate.png" alt="Certificate Icon">
+                    <div class="card-title">Programming Fundamentals</div>
+                    <div class="card-description">Awarded for completing the Programming Fundamentals course.</div>
+                </div>
+                <div class="card">
+                    <img src="/static/uploads/certificate.png" alt="Certificate Icon">
+                    <div class="card-title">Web Development Basics</div>
+                    <div class="card-description">Awarded for completing the Web Development Basics course.</div>
+                </div>
+                <div class="card">
+                    <img src="/static/uploads/certificate.png" alt="Certificate Icon">
+                    <div class="card-title">Machine Learning Basics</div>
+                    <div class="card-description">Awarded for completing the Machine Learning Basics course.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="badges-section">
+            <h1 class="section-title">Badges</h1>
+            <div class="cards">
+                <div class="card">
+                    <img src="/static/uploads/badge.png" alt="Badge Icon">
+                    <div class="card-title">Coding Champion</div>
+                    <div class="card-description">Earned for completing 5 programming courses.</div>
+                </div>
+                <div class="card">
+                    <img src="/static/uploads/badge.png" alt="Badge Icon">
+                    <div class="card-title">Web Wizard</div>
+                    <div class="card-description">Awarded for excelling in web development courses.</div>
+                </div>
+                <div class="card">
+                    <img src="/static/uploads/badge.png" alt="Badge Icon">
+                    <div class="card-title">AI Explorer</div>
+                    <div class="card-description">Earned for diving into AI and Machine Learning.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
