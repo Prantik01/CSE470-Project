@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Instructor Profile - LearnForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .navbar .logo {
+            font-size: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .nav-buttons a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .nav-buttons a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            padding-top: 80px; /* Add padding to avoid overlap with navbar */
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            float: right; /* Align the button to the right */
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+                float: none;
+                display: block;
+                margin-top: 10px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">LearnForge</div>
+        <div class="nav-buttons">
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <a href="#">Browse Courses</a>
+            <a href="{{ url_for('a_profile') }}">Profile</a>
+            <a href="#">Add Courses</a>
+            <a href="{{ url_for('a_logout') }}">Log Out</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="{{ url_for('admin_dashboard') }}" class="back-btn">Back to Dashboard</a>
+        <h1>All Students</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Student Email</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student['student_id'] }}</td>
+                    <td>{{ student['name'] }}</td>
+                    <td>{{ student['email'] }}</td>
+                    <td>{{ student['address'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
